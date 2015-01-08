@@ -25,7 +25,7 @@ namespace _13AMonsterGenerator
         public string MonsterType { private set; get; }
         public int InitiativeModifier { get; set; }
         public List<Attack> ListOfAttacks { get; set; }
-        public List<Abillites> ListOfAbilities { get; set; }
+        public List<Ability> ListOfAbilities { get; set; }
         public int ArmourClass { get; set; }
         public int HealthPoints { get; set; }
         public int PhysicalDefense { get; set; }

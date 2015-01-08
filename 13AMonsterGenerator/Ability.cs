@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace _13AMonsterGenerator
 {
-    internal class Abillites
+    internal class Ability
     {
         private List<Effects> effects;
         private string name;

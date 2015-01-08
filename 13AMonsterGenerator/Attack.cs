@@ -6,7 +6,7 @@ namespace _13AMonsterGenerator
     {
         private int attackModifier;
         private int damage;
-        private List<Abillites> listOfAbilities;
+        private List<Ability> listOfAbilities;
         private string name;
         private Effects onHitEffect;
     }
