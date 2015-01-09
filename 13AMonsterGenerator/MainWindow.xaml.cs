@@ -35,7 +35,7 @@ namespace _13AMonsterGenerator
             MonsterTextBox.AppendText(Environment.NewLine + "Monster Level Adjustment Range: ");
             foreach (var monsterLevelAdjustment in pt.MonsterLevelAdjustmentRange)
             {
-                MonsterTextBox.AppendText(monsterLevelAdjustment.ToString() + ", ");    
+                MonsterTextBox.AppendText(monsterLevelAdjustment.ToString() + ", ");
             }
 
             MonsterTextBox.AppendText(Environment.NewLine + "Monster Tier: ");
@@ -52,13 +52,18 @@ namespace _13AMonsterGenerator
 
             MonsterTextBox.AppendText(monster.GetMonster());
             MonsterTextBox.AppendText(Environment.NewLine);
+
+            MonsterTextBox.AppendText("AC ");
+            MonsterTextBox.AppendText(monster.ArmourClass.ToString());
+            MonsterTextBox.AppendText(" HP ");
             MonsterTextBox.AppendText(monster.HealthPoints.ToString());
 
             MonsterTextBox.AppendText(Environment.NewLine);
-            MonsterTextBox.AppendText(Environment.NewLine);
-            MonsterTextBox.AppendText(Environment.NewLine);
 
-
+            MonsterTextBox.AppendText("PD ");
+            MonsterTextBox.AppendText(monster.PhysicalDefense.ToString());
+            MonsterTextBox.AppendText(" MD ");
+            MonsterTextBox.AppendText(monster.MentalDefense.ToString());
         }
     }
 }
