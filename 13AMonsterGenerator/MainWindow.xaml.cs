@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 
@@ -46,14 +47,36 @@ namespace _13AMonsterGenerator
             MonsterTextBox.AppendText("Monster Level Adjustment: " + monster.PlayerTier.MonsterLevelAdjustment);
             MonsterTextBox.AppendText(Environment.NewLine);
             MonsterTextBox.AppendText(Environment.NewLine);
-            MonsterTextBox.AppendText("<<Generated monster>>");
+            MonsterTextBox.AppendText("<<Generated listOfAbilities>>");
             MonsterTextBox.AppendText(Environment.NewLine);
 
 
+            MonsterTextBox.AppendText(monster.Name);
+            MonsterTextBox.AppendText(Environment.NewLine);
             MonsterTextBox.AppendText(monster.GetMonster());
             MonsterTextBox.AppendText(Environment.NewLine);
-            MonsterTextBox.AppendText("Attack: " + (monster.Level+5));
-            MonsterTextBox.AppendText(" Damage: " + (monster.Level+1*8));
+
+            foreach (var attack in monster.ListOfAttacks)
+            {
+                MonsterTextBox.AppendText(attack.name);
+                MonsterTextBox.AppendText(" +");
+                MonsterTextBox.AppendText(attack.attackModifier.ToString());
+                MonsterTextBox.AppendText(" vs. ");
+                MonsterTextBox.AppendText(EnumUtilites.StringValueOf(attack.AttackAgainstDefense));
+                MonsterTextBox.AppendText(" -- ");
+                MonsterTextBox.AppendText(attack.damage.ToString());
+                MonsterTextBox.AppendText(" ");
+                MonsterTextBox.AppendText(attack.onHitEffect.description);
+                MonsterTextBox.AppendText(Environment.NewLine);
+                AddAbility(attack.listOfAbilities, true);
+            }
+            MonsterTextBox.AppendText(Environment.NewLine);
+
+            AddAbility(monster.ListOfAbilities, false);
+
+            MonsterTextBox.AppendText(Environment.NewLine);
+            MonsterTextBox.AppendText("Attack: " + (monster.Level + 5));
+            MonsterTextBox.AppendText(" Damage: " + (monster.Level + 1 * 8));
             MonsterTextBox.AppendText(Environment.NewLine);
 
             MonsterTextBox.AppendText("AC ");
@@ -67,6 +90,30 @@ namespace _13AMonsterGenerator
             MonsterTextBox.AppendText(monster.PhysicalDefense.ToString());
             MonsterTextBox.AppendText(" MD ");
             MonsterTextBox.AppendText(monster.MentalDefense.ToString());
+        }
+
+        private void AddAbility(IEnumerable<Ability> listOfAbilities, bool isIndented)
+        {
+            foreach (var ability in listOfAbilities)
+            {
+                MonsterTextBox.AppendText(isIndented ? "    " : ""); 
+                if (ability.Name != null)
+                {
+                    MonsterTextBox.AppendText(ability.Name);
+                    MonsterTextBox.AppendText(" ");
+                }
+
+                MonsterTextBox.AppendText(EnumUtilites.StringValueOf(ability.AbilityTrigger));
+                MonsterTextBox.AppendText(": ");
+
+                foreach (var effect in ability.Effects)
+                {
+                    MonsterTextBox.AppendText(effect.description);
+                    MonsterTextBox.AppendText(". ");
+                }
+
+                MonsterTextBox.AppendText(Environment.NewLine);
+            }
         }
     }
 }

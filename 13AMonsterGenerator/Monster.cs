@@ -60,6 +60,9 @@ namespace _13AMonsterGenerator
         private void CreateNewMonsterFromLevel()
         {
             _random = new Random();
+
+            Name = "Dire Monster 3000";
+
             PlayerTier.SetMonsterLevelAdjustment(
                 PlayerTier.MonsterLevelAdjustmentRange.ElementAt(
                     _random.Next(PlayerTier.MonsterLevelAdjustmentRange.Count)));
@@ -77,6 +80,7 @@ namespace _13AMonsterGenerator
             MonsterRole = MonsterRoleList.ElementAt(_random.Next(MonsterRoleList.Count));
             MonsterSize = MonsterSizeList.ElementAt(_random.Next(MonsterSizeList.Count));
             MonsterType = MonsterTypeList.ElementAt(_random.Next(MonsterTypeList.Count));
+
             if (MonsterSize.Equals("Mook") || MonsterRole.Equals("Mook"))
             {
                 MonsterRole = "Mook";
@@ -97,6 +101,33 @@ namespace _13AMonsterGenerator
                 MentalDefense = Level + 14;
                 PhysicalDefense = Level + 10;
             }
+
+            
+            var listOfAttackEffects = new List<Effect>()
+            {
+                new Effect("12 ongoing fire damage")
+            };
+
+            var listOfAttackAbilities = new List<Ability>()
+            {
+                new Ability(Ability.Trigger.Natural16Plus, listOfAttackEffects)
+            };
+
+            var attack = new List<Attack>
+            {
+                new Attack(Level + 5, Attack.Defense.Ac, Level + 1 * 8, listOfAttackAbilities, "Burning Touch", new Effect("acid damage"))
+            };
+
+            ListOfAttacks = attack;
+
+            AddMonsterAbilities();
+
+        }
+
+        private void AddMonsterAbilities()
+        {
+            var ek = new List<Effect> { new Effect("This creature gets +1 attack bonus per other " + Name + " engaged with the target it's attacking") };
+            ListOfAbilities = new List<Ability> { new Ability("Pack Attack", ek) };
         }
 
         private int GetHealthPoinst()

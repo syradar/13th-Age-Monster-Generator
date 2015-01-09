@@ -96,7 +96,8 @@
     </Compile>
     <Compile Include="Attack.cs" />
     <Compile Include="DifficultyValue.cs" />
-    <Compile Include="Effects.cs" />
+    <Compile Include="Effect.cs" />
+    <Compile Include="EnumUtilites.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
