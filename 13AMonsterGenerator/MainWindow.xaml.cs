@@ -52,6 +52,8 @@ namespace _13AMonsterGenerator
 
             MonsterTextBox.AppendText(monster.GetMonster());
             MonsterTextBox.AppendText(Environment.NewLine);
+            MonsterTextBox.AppendText(monster.HealthPoints.ToString());
+
             MonsterTextBox.AppendText(Environment.NewLine);
             MonsterTextBox.AppendText(Environment.NewLine);
             MonsterTextBox.AppendText(Environment.NewLine);
