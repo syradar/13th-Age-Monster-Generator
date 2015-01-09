@@ -52,6 +52,9 @@ namespace _13AMonsterGenerator
 
             MonsterTextBox.AppendText(monster.GetMonster());
             MonsterTextBox.AppendText(Environment.NewLine);
+            MonsterTextBox.AppendText("Attack: " + (monster.Level+5));
+            MonsterTextBox.AppendText(" Damage: " + (monster.Level+1*8));
+            MonsterTextBox.AppendText(Environment.NewLine);
 
             MonsterTextBox.AppendText("AC ");
             MonsterTextBox.AppendText(monster.ArmourClass.ToString());
