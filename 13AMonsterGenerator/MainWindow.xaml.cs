@@ -39,8 +39,7 @@ namespace _13AMonsterGenerator
                 new Ability("Pack Attack",
                     new List<Effect>()
                     {
-                        new Effect(
-                            "This creature gains a +2 bonus to attack and damage for each other ally engaged with the target (max +4 bonus).")
+                        new Effect("This creature gains a +2 bonus to attack and damage for each other ally engaged with the target (max +4 bonus).")
                     }),
                 new Ability("Savage",
                     new List<Effect>()
