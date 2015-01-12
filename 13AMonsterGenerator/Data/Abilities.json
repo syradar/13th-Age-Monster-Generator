@@ -1,0 +1,22 @@
+﻿[
+    {
+        name: "Wall-crawler",
+        effect: "Can climb on ceilings and walls as easily as it moves on the ground."
+    },
+    {
+        name: "Scuttle",
+        effect: "Can turn its own failed disengage check into a success by taking 1d4 damage."
+    },
+    {
+        name: "Pack Attack",
+        effect: "Can climb on ceilings and walls as easily as it moves on the ground."
+    },
+    {
+        name: "Savage",
+        effect: "Gains a +2 attack bonus against staggered enemies."
+    },
+    {
+        name: "Blood frenzy",
+        effect: "Crit range expands to 16+ while the escalation die is 4+"
+    }
+]

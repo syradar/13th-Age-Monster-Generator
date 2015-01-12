@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace _13AMonsterGenerator
 {
@@ -36,9 +38,10 @@ namespace _13AMonsterGenerator
 
         private Random _random;
 
-        public Monster(PlayerTier playerTier)
+        public Monster(PlayerTier playerTier, List<Ability> abilityList)
         {
             PlayerTier = playerTier;
+            ListOfAvailableAbilities = abilityList;
             CreateNewMonsterFromLevel();
         }
 
@@ -50,6 +53,7 @@ namespace _13AMonsterGenerator
         public int InitiativeModifier { get; set; }
         public List<Attack> ListOfAttacks { get; set; }
         public List<Ability> ListOfAbilities { get; set; }
+        private List<Ability> ListOfAvailableAbilities { get; set; }
         public int ArmourClass { get; set; }
         public int HealthPoints { get; private set; }
         public int PhysicalDefense { get; set; }
@@ -102,7 +106,7 @@ namespace _13AMonsterGenerator
                 PhysicalDefense = Level + 10;
             }
 
-            
+
             var listOfAttackEffects = new List<Effect>()
             {
                 new Effect("12 ongoing fire damage")
@@ -115,24 +119,38 @@ namespace _13AMonsterGenerator
 
             var attack = new List<Attack>
             {
-                new Attack(Level + 5, Attack.Defense.Ac, Level + 1 * 8, listOfAttackAbilities, "Burning Touch", new Effect("acid damage"))
+                new Attack(Level + 5, Attack.Defense.Ac, Level + 1 * 8, listOfAttackAbilities, "Burning Touch",
+                    new Effect("acid damage"))
             };
 
             ListOfAttacks = attack;
 
             AddMonsterAbilities();
-
         }
 
         private void AddMonsterAbilities()
         {
-            var ek = new List<Effect> { new Effect("This creature gets +1 attack bonus per other " + Name + " engaged with the target it's attacking") };
-            ListOfAbilities = new List<Ability> { new Ability("Pack Attack", ek) };
+            ListOfAbilities = new List<Ability>();
+
+            var maxNumberOfAbilities = _random.Next(ListOfAvailableAbilities.Count);
+            if (maxNumberOfAbilities == 0)
+            {
+                maxNumberOfAbilities = 1;
+            }
+
+            for (var numberOfAbilities = 0;
+                 numberOfAbilities < maxNumberOfAbilities;
+                 numberOfAbilities++)
+            {
+                var randomAbilityNumber = _random.Next(ListOfAvailableAbilities.Count);
+                ListOfAbilities.Add(ListOfAvailableAbilities.ElementAt(randomAbilityNumber));
+                ListOfAvailableAbilities.RemoveAt(randomAbilityNumber);
+            }
         }
 
         private int GetHealthPoinst()
         {
-            var healthPoints = 0;
+            int healthPoints;
 
             if (MonsterSize.Equals("Mook"))
             {
@@ -234,19 +252,16 @@ namespace _13AMonsterGenerator
             return sb.ToString();
         }
 
-        private string GetNumberSuffix(int number)
+        private static string GetNumberSuffix(int number)
         {
-            if (number == 1)
+            switch (number)
             {
-                return "st";
-            }
-            if (number == 2)
-            {
-                return "nd";
-            }
-            if (number == 3)
-            {
-                return "rd";
+                case 1:
+                    return "st";
+                case 2:
+                    return "nd";
+                case 3:
+                    return "rd";
             }
             return "th";
         }

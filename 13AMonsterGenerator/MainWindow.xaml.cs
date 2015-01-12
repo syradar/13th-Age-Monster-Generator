@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
+using _13AMonsterGenerator.Properties;
 
 namespace _13AMonsterGenerator
 {
@@ -10,10 +12,47 @@ namespace _13AMonsterGenerator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<Ability> abilityList;
+
+        private Assembly json;
+
         public MainWindow()
         {
             InitializeComponent();
             InitializeGui();
+        }
+
+        private void PopulateAbilityList()
+        {
+            abilityList = new List<Ability>
+            {
+                new Ability("Wall-crawler",
+                    new List<Effect>()
+                    {
+                        new Effect("Can climb on ceilings and walls as easily as it moves on the ground.")
+                    }),
+                new Ability("Scuttle",
+                    new List<Effect>()
+                    {
+                        new Effect("Can turn its own failed disengage check into a success by taking 1d4 damage.")
+                    }),
+                new Ability("Pack Attack",
+                    new List<Effect>()
+                    {
+                        new Effect(
+                            "This creature gains a +2 bonus to attack and damage for each other ally engaged with the target (max +4 bonus).")
+                    }),
+                new Ability("Savage",
+                    new List<Effect>()
+                    {
+                        new Effect("Gains a +2 attack bonus against staggered enemies.")
+                    }),
+                new Ability("Blood frenzy",
+                    new List<Effect>()
+                    {
+                        new Effect("Crit range expands to 16+ while the escalation die is 4+")
+                    })
+            };
         }
 
         private void InitializeGui()
@@ -28,8 +67,9 @@ namespace _13AMonsterGenerator
 
         private void GenerateMonsterClicked(object sender, RoutedEventArgs e)
         {
+            PopulateAbilityList();
             var pt = new PlayerTier((int) PlayerLevelComboBox.SelectedValue);
-            var monster = new Monster(new PlayerTier((int) PlayerLevelComboBox.SelectedValue));
+            var monster = new Monster(new PlayerTier((int) PlayerLevelComboBox.SelectedValue), abilityList);
 
             MonsterTextBox.Text = String.Empty;
             MonsterTextBox.AppendText("Player Level: " + pt.Level.ToString());
@@ -96,7 +136,7 @@ namespace _13AMonsterGenerator
         {
             foreach (var ability in listOfAbilities)
             {
-                MonsterTextBox.AppendText(isIndented ? "    " : ""); 
+                MonsterTextBox.AppendText(isIndented ? "    " : "");
                 if (ability.Name != null)
                 {
                     MonsterTextBox.AppendText(ability.Name);

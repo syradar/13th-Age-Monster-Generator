@@ -1,7 +1,7 @@
 ﻿<Window x:Name="window" x:Class="_13AMonsterGenerator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="13th Age - Monster Generator" Height="350" Width="525">
+        Title="13th Age - Monster Generator" Height="350" Width="525" WindowStartupLocation="CenterScreen">
     <Grid>
         <ComboBox x:Name="PlayerLevelComboBox" HorizontalAlignment="Left" Margin="87,14,0,0" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="PlayerLevelLabel" Content="Player Level" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
