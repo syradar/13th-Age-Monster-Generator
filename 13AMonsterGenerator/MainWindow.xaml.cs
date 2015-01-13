@@ -105,11 +105,11 @@ namespace _13AMonsterGenerator
                 MonsterTextBox.AppendText(" ");
                 MonsterTextBox.AppendText(attack.OnHitEffect.Description);
                 MonsterTextBox.AppendText(Environment.NewLine);
-                OutputAbility(attack.ListOfAbilities, true);
+                OutputAbilities(attack.ListOfAbilities, true);
             }
             MonsterTextBox.AppendText(Environment.NewLine);
 
-            OutputAbility(monster.ListOfAbilities, false);
+            OutputAbilities(monster.ListOfAbilities, false);
 
             MonsterTextBox.AppendText("AC ");
             MonsterTextBox.AppendText(monster.ArmourClass.ToString());
@@ -136,7 +136,7 @@ namespace _13AMonsterGenerator
             }
         }
 
-        private void OutputAbility(IEnumerable<Ability> listOfAbilities, bool isIndented)
+        private void OutputAbilities(IEnumerable<Ability> listOfAbilities, bool isIndented)
         {
             foreach (var ability in listOfAbilities)
             {
@@ -150,13 +150,15 @@ namespace _13AMonsterGenerator
                 MonsterTextBox.AppendText(EnumUtilites.StringValueOf(ability.AbilityTrigger));
                 MonsterTextBox.AppendText(": ");
 
+                var newEffectDescription = "";
+
                 foreach (var effect in ability.Effects)
                 {
                     if (effect.Description.Contains("MONSTER_NAME"))
                     {
-                        effect.Description = effect.Description.Replace("MONSTER_NAME", _monster.Name);
+                        newEffectDescription = effect.Description.Replace("MONSTER_NAME", _monster.Name);
                     }
-                    MonsterTextBox.AppendText(effect.Description);
+                    MonsterTextBox.AppendText(newEffectDescription);
                     MonsterTextBox.AppendText(". ");
                 }
 
