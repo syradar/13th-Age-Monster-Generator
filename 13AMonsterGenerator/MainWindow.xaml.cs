@@ -13,6 +13,8 @@ namespace _13AMonsterGenerator
     public partial class MainWindow
     {
         private List<Ability> _abilityList;
+        private Monster _monster;
+        private PlayerTier _playerTier;
 
         public MainWindow()
         {
@@ -52,9 +54,16 @@ namespace _13AMonsterGenerator
 
         private void GenerateMonsterClicked(object sender, RoutedEventArgs e)
         {
-            var playerTier = new PlayerTier((int) PlayerLevelComboBox.SelectedValue);
-            var monster = new Monster(new PlayerTier((int)PlayerLevelComboBox.SelectedValue), _abilityList.ToList());
-            OutputMonster(playerTier, monster);
+            _playerTier = new PlayerTier((int) PlayerLevelComboBox.SelectedValue);
+            _monster = new Monster(new PlayerTier((int)PlayerLevelComboBox.SelectedValue), _abilityList.ToList());
+
+            if (!txtMonsterName.Text.Equals(""))
+            {
+                _monster.Name = txtMonsterName.Text;
+            }
+
+            OutputMonster(_playerTier, _monster);
+            txtMonsterName.IsEnabled = true;
         }
 
         private void OutputMonster(PlayerTier pt, Monster monster)
@@ -149,6 +158,12 @@ namespace _13AMonsterGenerator
 
                 MonsterTextBox.AppendText(Environment.NewLine);
             }
+        }
+
+        private void TxtMonsterNameChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            _monster.Name = txtMonsterName.Text;
+            OutputMonster(_playerTier, _monster);
         }
     }
 }
