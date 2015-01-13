@@ -14,74 +14,35 @@
   {
     "name": "Durable",
     "effects": [
-      "The first time each round the monster takes damage, prevent 2d6 of it."
+      "The first time each round the MONSTER_NAME takes damage, prevent 2d6 of it."
     ]
   },
   {
     "name": "Savage",
     "effects": [
-      "Gains a +2 attack bonus against staggered enemies."
+      "MONSTER_NAME gains a +2 attack bonus against staggered enemies."
     ]
   },
   {
     "name": "Blood frenzy",
     "effects": [
-      "Crit range expands to 16+ while the escalation die is 4+"
+      "MONSTER_NAME crit range expands to 16+ while the escalation die is 4+"
     ]
   },
   {
     "name": "Flows where it likes",
     "effects": [
-      "The ooze is immune to opportunity attacks."
+      "MONSTER_NAME is immune to opportunity attacks."
     ]
   },{
     "name": "Slippery",
     "effects": [
-      "Has resist weapons 12+"
+      "MONSTER_NAME has resist weapons 12+"
     ]
   },{
     "name": "Unstoppable",
     "effects": [
-      "When the monster drops to 0 hp, it does not
-immediately die. Ignore any damage in excess of 0 hp, roll 2d6,
-and give the monster that many temporary hit points. No
-other healing can affect the monster or give it more temporary
-hit points: when the temporary hp are gone, the monster dies."
+      "When MONSTER_NAME drops to 0 hp, it does not immediately die. Ignore any damage in excess of 0 hp, roll 2d6, and give the MONSTER_NAME that many temporary hit points. No other healing can affect the MONSTER_NAME or give it more temporary hit points: when the temporary hp are gone, the MONSTER_NAME dies."
     ]
-  },{
-    "name": "Durable",
-    "effects": [
-      "Thefirsttime"
-    ]
-  },{
-    "name": "Durable",
-    "effects": [
-      "Thefirsttime"
-    ]
-  },{
-    "name": "Durable",
-    "effects": [
-      "Thefirsttime"
-    ]
-  },{
-    "name": "Durable",
-    "effects": [
-      "Thefirsttime"
-    ]
-  },{
-    "name": "Durable",
-    "effects": [
-      "Thefirsttime"
-    ]
-  },{
-    "name": "Durable",
-    "effects": [
-      "Thefirsttime"
-    ]
-  },{
-    "name": "Durable",
-    "effects": [
-      "Thefirsttime"
-    ]
-  },
+  }
 ]

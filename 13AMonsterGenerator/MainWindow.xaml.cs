@@ -35,9 +35,9 @@ namespace _13AMonsterGenerator
                     _abilityList.Add(new Ability(abilityDto));
                 }
             }
-            catch (Exception e)
+            catch (System.IO.IOException e)
             {
-                MessageBox.Show("Could not find Abilities.json in Data folder :(");
+                MessageBox.Show("Could not find Abilities.json in Data folder :("+Environment.NewLine+e);
                 Application.Current.Shutdown();
             }
         }
@@ -152,6 +152,10 @@ namespace _13AMonsterGenerator
 
                 foreach (var effect in ability.Effects)
                 {
+                    if (effect.Description.Contains("MONSTER_NAME"))
+                    {
+                        effect.Description = effect.Description.Replace("MONSTER_NAME", _monster.Name);
+                    }
                     MonsterTextBox.AppendText(effect.Description);
                     MonsterTextBox.AppendText(". ");
                 }
