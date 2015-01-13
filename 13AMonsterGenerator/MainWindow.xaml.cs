@@ -35,7 +35,7 @@ namespace _13AMonsterGenerator
                     _abilityList.Add(new Ability(abilityDto));
                 }
             }
-            catch (System.IO.IOException e)
+            catch (IOException e)
             {
                 MessageBox.Show("Could not find Abilities.json in Data folder :("+Environment.NewLine+e);
                 Application.Current.Shutdown();

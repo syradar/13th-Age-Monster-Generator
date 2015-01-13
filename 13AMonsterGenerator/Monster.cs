@@ -92,17 +92,7 @@ namespace _13AMonsterGenerator
                 PlayerTier.MonsterLevelAdjustment, MonsterSize);
 
             HealthPoints = GetHealthPoinst();
-            ArmourClass = Level + 16;
-            if (_random.Next(2) == 0)
-            {
-                PhysicalDefense = Level + 14;
-                MentalDefense = Level + 10;
-            }
-            else
-            {
-                MentalDefense = Level + 14;
-                PhysicalDefense = Level + 10;
-            }
+            AddDefenses();
 
 
             var listOfAttackEffects = new List<Effect>()
@@ -124,6 +114,21 @@ namespace _13AMonsterGenerator
             ListOfAttacks = attack;
 
             AddMonsterAbilities();
+        }
+
+        private void AddDefenses()
+        {
+            ArmourClass = Level + 16;
+            if (_random.Next(2) == 0)
+            {
+                PhysicalDefense = Level + 14;
+                MentalDefense = Level + 10;
+            }
+            else
+            {
+                MentalDefense = Level + 14;
+                PhysicalDefense = Level + 10;
+            }
         }
 
         private void AddMonsterAbilities()
