@@ -104,10 +104,10 @@ namespace _13AMonsterGenerator
             {
                 new Ability(Ability.Trigger.Natural16Plus, listOfAttackEffects)
             };
-
+            //TODO: Add random attackType, defense, effects, attack-abilitiess
             var attack = new List<Attack>
             {
-                new Attack(Level + 5, Attack.Defense.Ac, Level + 1 * 8, listOfAttackAbilities, "Burning Touch",
+                new Attack(Level + 5, Attack.AttackType.Melee, Attack.Defense.Ac, Level + 1 * 8, listOfAttackAbilities, "Burning Touch",
                     new Effect("acid damage"))
             };
 
