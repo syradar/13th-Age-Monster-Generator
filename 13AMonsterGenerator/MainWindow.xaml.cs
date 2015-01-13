@@ -1,58 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Windows;
-using _13AMonsterGenerator.Properties;
+using Newtonsoft.Json;
 
 namespace _13AMonsterGenerator
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private List<Ability> abilityList;
-
-        private Assembly json;
+        private List<Ability> _abilityList;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeGui();
+            PopulateAbilityList();
         }
 
         private void PopulateAbilityList()
         {
-            abilityList = new List<Ability>
+            try
             {
-                new Ability("Wall-crawler",
-                    new List<Effect>()
-                    {
-                        new Effect("Can climb on ceilings and walls as easily as it moves on the ground.")
-                    }),
-                new Ability("Scuttle",
-                    new List<Effect>()
-                    {
-                        new Effect("Can turn its own failed disengage check into a success by taking 1d4 damage.")
-                    }),
-                new Ability("Pack Attack",
-                    new List<Effect>()
-                    {
-                        new Effect(
-                            "This creature gains a +2 bonus to attack and damage for each other ally engaged with the target (max +4 bonus).")
-                    }),
-                new Ability("Savage",
-                    new List<Effect>()
-                    {
-                        new Effect("Gains a +2 attack bonus against staggered enemies.")
-                    }),
-                new Ability("Blood frenzy",
-                    new List<Effect>()
-                    {
-                        new Effect("Crit range expands to 16+ while the escalation die is 4+")
-                    })
-            };
+                var abilityDeserializeObject = JsonConvert.DeserializeObject<List<AbilityDTO>>(File.ReadAllText(Properties.Resources.AbilitiesJsonPath));
+
+                _abilityList = new List<Ability>();
+                foreach (var abilityDto in abilityDeserializeObject)
+                {
+                    _abilityList.Add(new Ability(abilityDto));
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not find Abilities.json in Data folder :(");
+                Application.Current.Shutdown();
+            }
         }
 
         private void InitializeGui()
@@ -67,10 +52,13 @@ namespace _13AMonsterGenerator
 
         private void GenerateMonsterClicked(object sender, RoutedEventArgs e)
         {
-            PopulateAbilityList();
-            var pt = new PlayerTier((int) PlayerLevelComboBox.SelectedValue);
-            var monster = new Monster(new PlayerTier((int) PlayerLevelComboBox.SelectedValue), abilityList);
+            var playerTier = new PlayerTier((int) PlayerLevelComboBox.SelectedValue);
+            var monster = new Monster(new PlayerTier((int)PlayerLevelComboBox.SelectedValue), _abilityList.ToList());
+            OutputMonster(playerTier, monster);
+        }
 
+        private void OutputMonster(PlayerTier pt, Monster monster)
+        {
             MonsterTextBox.Text = String.Empty;
             MonsterTextBox.AppendText("Player Level: " + pt.Level.ToString());
             MonsterTextBox.AppendText(Environment.NewLine + "Monster Level Adjustment Range: ");
@@ -98,26 +86,21 @@ namespace _13AMonsterGenerator
 
             foreach (var attack in monster.ListOfAttacks)
             {
-                MonsterTextBox.AppendText(attack.name);
+                MonsterTextBox.AppendText(attack.Name);
                 MonsterTextBox.AppendText(" +");
-                MonsterTextBox.AppendText(attack.attackModifier.ToString());
+                MonsterTextBox.AppendText(attack.AttackModifier.ToString());
                 MonsterTextBox.AppendText(" vs. ");
                 MonsterTextBox.AppendText(EnumUtilites.StringValueOf(attack.AttackAgainstDefense));
                 MonsterTextBox.AppendText(" -- ");
-                MonsterTextBox.AppendText(attack.damage.ToString());
+                MonsterTextBox.AppendText(attack.Damage.ToString());
                 MonsterTextBox.AppendText(" ");
-                MonsterTextBox.AppendText(attack.onHitEffect.description);
+                MonsterTextBox.AppendText(attack.OnHitEffect.Description);
                 MonsterTextBox.AppendText(Environment.NewLine);
-                AddAbility(attack.listOfAbilities, true);
+                OutputAbility(attack.ListOfAbilities, true);
             }
             MonsterTextBox.AppendText(Environment.NewLine);
 
-            AddAbility(monster.ListOfAbilities, false);
-
-            MonsterTextBox.AppendText(Environment.NewLine);
-            MonsterTextBox.AppendText("Attack: " + (monster.Level + 5));
-            MonsterTextBox.AppendText(" Damage: " + (monster.Level + 1 * 8));
-            MonsterTextBox.AppendText(Environment.NewLine);
+            OutputAbility(monster.ListOfAbilities, false);
 
             MonsterTextBox.AppendText("AC ");
             MonsterTextBox.AppendText(monster.ArmourClass.ToString());
@@ -130,9 +113,21 @@ namespace _13AMonsterGenerator
             MonsterTextBox.AppendText(monster.PhysicalDefense.ToString());
             MonsterTextBox.AppendText(" MD ");
             MonsterTextBox.AppendText(monster.MentalDefense.ToString());
+            MonsterTextBox.AppendText(Environment.NewLine);
+
+            if (monster.MonsterRole.Equals("Mook"))
+            {
+                MonsterTextBox.AppendText("Mook: Kill one ");
+                MonsterTextBox.AppendText(monster.Name);
+                MonsterTextBox.AppendText(" ");
+                MonsterTextBox.AppendText(monster.MonsterType);
+                MonsterTextBox.AppendText(" for every ");
+                MonsterTextBox.AppendText(monster.HealthPoints.ToString());
+                MonsterTextBox.AppendText("  damage you deal to the mob");
+            }
         }
 
-        private void AddAbility(IEnumerable<Ability> listOfAbilities, bool isIndented)
+        private void OutputAbility(IEnumerable<Ability> listOfAbilities, bool isIndented)
         {
             foreach (var ability in listOfAbilities)
             {
@@ -148,7 +143,7 @@ namespace _13AMonsterGenerator
 
                 foreach (var effect in ability.Effects)
                 {
-                    MonsterTextBox.AppendText(effect.description);
+                    MonsterTextBox.AppendText(effect.Description);
                     MonsterTextBox.AppendText(". ");
                 }
 

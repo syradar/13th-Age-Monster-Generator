@@ -61,12 +61,11 @@ namespace _13AMonsterGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to Data\Abilities.json.
         /// </summary>
-        internal static byte[] Newtonsoft_Json {
+        internal static string AbilitiesJsonPath {
             get {
-                object obj = ResourceManager.GetObject("Newtonsoft_Json", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("AbilitiesJsonPath", resourceCulture);
             }
         }
     }

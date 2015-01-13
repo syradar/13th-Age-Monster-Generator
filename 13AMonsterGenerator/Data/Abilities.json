@@ -1,22 +1,87 @@
 ﻿[
-    {
-        name: "Wall-crawler",
-        effect: "Can climb on ceilings and walls as easily as it moves on the ground."
-    },
-    {
-        name: "Scuttle",
-        effect: "Can turn its own failed disengage check into a success by taking 1d4 damage."
-    },
-    {
-        name: "Pack Attack",
-        effect: "Can climb on ceilings and walls as easily as it moves on the ground."
-    },
-    {
-        name: "Savage",
-        effect: "Gains a +2 attack bonus against staggered enemies."
-    },
-    {
-        name: "Blood frenzy",
-        effect: "Crit range expands to 16+ while the escalation die is 4+"
-    }
+  {
+    "name": "Wall-crawler",
+    "effects": [
+      "Can climb on ceilings and walls as easily as it moves on the ground."
+    ]
+  },
+  {
+    "name": "Scuttle",
+    "effects": [
+      "Can turn its own failed disengage check into a success by taking 1d4 damage."
+    ]
+  },
+  {
+    "name": "Durable",
+    "effects": [
+      "The first time each round the monster takes damage, prevent 2d6 of it."
+    ]
+  },
+  {
+    "name": "Savage",
+    "effects": [
+      "Gains a +2 attack bonus against staggered enemies."
+    ]
+  },
+  {
+    "name": "Blood frenzy",
+    "effects": [
+      "Crit range expands to 16+ while the escalation die is 4+"
+    ]
+  },
+  {
+    "name": "Flows where it likes",
+    "effects": [
+      "The ooze is immune to opportunity attacks."
+    ]
+  },{
+    "name": "Slippery",
+    "effects": [
+      "Has resist weapons 12+"
+    ]
+  },{
+    "name": "Unstoppable",
+    "effects": [
+      "When the monster drops to 0 hp, it does not
+immediately die. Ignore any damage in excess of 0 hp, roll 2d6,
+and give the monster that many temporary hit points. No
+other healing can affect the monster or give it more temporary
+hit points: when the temporary hp are gone, the monster dies."
+    ]
+  },{
+    "name": "Durable",
+    "effects": [
+      "Thefirsttime"
+    ]
+  },{
+    "name": "Durable",
+    "effects": [
+      "Thefirsttime"
+    ]
+  },{
+    "name": "Durable",
+    "effects": [
+      "Thefirsttime"
+    ]
+  },{
+    "name": "Durable",
+    "effects": [
+      "Thefirsttime"
+    ]
+  },{
+    "name": "Durable",
+    "effects": [
+      "Thefirsttime"
+    ]
+  },{
+    "name": "Durable",
+    "effects": [
+      "Thefirsttime"
+    ]
+  },{
+    "name": "Durable",
+    "effects": [
+      "Thefirsttime"
+    ]
+  },
 ]

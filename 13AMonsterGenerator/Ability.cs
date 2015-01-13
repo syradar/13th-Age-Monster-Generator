@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace _13AMonsterGenerator
 {
-    internal class Ability
+    internal class Ability : IEnumerable
     {
         public enum Trigger
         {
@@ -34,6 +35,13 @@ namespace _13AMonsterGenerator
             AbilityTrigger = Trigger.None;
         }
 
+        public Ability(AbilityDTO abilityDto)
+        {
+            Name = abilityDto.Name;
+            Effects = abilityDto.Effects;
+            AbilityTrigger = Trigger.None;
+        }
+
         public Ability(Trigger trigger, List<Effect> effects)
         {
             AbilityTrigger = trigger;
@@ -44,5 +52,9 @@ namespace _13AMonsterGenerator
         public List<Effect> Effects { get; private set; }
         public string Name { get; private set; }
         public Trigger AbilityTrigger { get; private set; }
+        public IEnumerator GetEnumerator()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Windows;
 
 namespace _13AMonsterGenerator
 {
@@ -132,7 +130,7 @@ namespace _13AMonsterGenerator
         {
             ListOfAbilities = new List<Ability>();
 
-            var maxNumberOfAbilities = _random.Next(ListOfAvailableAbilities.Count);
+            var maxNumberOfAbilities = _random.Next(1,4);
             if (maxNumberOfAbilities == 0)
             {
                 maxNumberOfAbilities = 1;
