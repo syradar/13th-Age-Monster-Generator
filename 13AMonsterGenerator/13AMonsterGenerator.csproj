@@ -102,8 +102,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Attack.cs" />
+    <Compile Include="AttackType.cs" />
+    <Compile Include="Damage.cs" />
     <Compile Include="DifficultyValue.cs" />
     <Compile Include="Effect.cs" />
+    <Compile Include="Element.cs" />
     <Compile Include="EnumUtilites.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

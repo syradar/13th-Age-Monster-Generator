@@ -51,13 +51,15 @@ namespace _13AMonsterGenerator
         public int InitiativeModifier { get; set; }
         public List<Attack> ListOfAttacks { get; set; }
         public List<Ability> ListOfAbilities { get; set; }
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
         private List<Ability> ListOfAvailableAbilities { get; set; }
         public int ArmourClass { get; set; }
         public int HealthPoints { get; private set; }
         public int PhysicalDefense { get; set; }
         public int MentalDefense { get; set; }
-        public PlayerTier PlayerTier { get; private set; }
-        public double MonsterDifficultyValue { get; private set; }
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
+        public PlayerTier PlayerTier { get; set; }
+        private double MonsterDifficultyValue { get; set; }
 
         private void CreateNewMonsterFromLevel()
         {
@@ -92,31 +94,78 @@ namespace _13AMonsterGenerator
                 PlayerTier.MonsterLevelAdjustment, MonsterSize);
 
             HealthPoints = GetHealthPoinst();
-            AddDefenses();
+            SetDefenses();
 
 
-            var listOfAttackEffects = new List<Effect>()
+            var listOfAttackEffects = new List<Effect>
             {
                 new Effect("12 ongoing fire damage")
             };
 
-            var listOfAttackAbilities = new List<Ability>()
+            var listOfAttackAbilities = new List<Ability>
             {
                 new Ability(Ability.Trigger.Natural16Plus, listOfAttackEffects)
             };
-            //TODO: Add random attackType, defense, effects, attack-abilitiess
+            // TODO: Add random attackType, defense, effects, attack-abilitiess
+
+            var randomAttackType = GenerateAttackType(AttackTypeList);
+
+
+            var defenseArray = Enum.GetValues(typeof (Attack.Defense));
+            var randomDefense = (Attack.Defense) defenseArray.GetValue(_random.Next(defenseArray.Length));
+
+            var damageElementArray = Enum.GetValues(typeof (Element.ElementType));
+            var randomElement =
+                (Element.ElementType) damageElementArray.GetValue(_random.Next(damageElementArray.Length));
+
+            var damageTypeArray = Enum.GetValues(typeof (Damage.Type));
+            var randomeDamageType = (Damage.Type) damageTypeArray.GetValue(_random.Next(damageTypeArray.Length));
+
             var attack = new List<Attack>
             {
-                new Attack(Level + 5, Attack.AttackType.Melee, Attack.Defense.Ac, Level + 1 * 8, listOfAttackAbilities, "Burning Touch",
-                    new Effect("acid damage"))
+                new Attack(Level + 5, randomAttackType, randomDefense,
+                    new Damage(Level + 1 * 8, randomElement, randomeDamageType), listOfAttackAbilities, "Burning Touch",
+                    new Effect(""))
             };
 
             ListOfAttacks = attack;
 
-            AddMonsterAbilities();
+            SetMonsterAbilities();
         }
 
-        private void AddDefenses()
+        private static List<AttackType> AttackTypeList
+        {
+            get
+            {
+                var attackTypeList = new List<AttackType>
+                {
+                    new AttackType(AttackType.Type.Melee),
+                    new AttackType(AttackType.Type.Close),
+                    new AttackType(AttackType.Type.Range)
+                };
+                return attackTypeList;
+            }
+        }
+
+        private AttackType GenerateAttackType(List<AttackType> attackTypeList)
+        {
+            var weight = attackTypeList.Sum(attackType => attackType.Weight);
+            var randomNumber = _random.Next(weight);
+            var randomAttackType = new AttackType(AttackType.Type.Melee);
+
+            foreach (var attackType in attackTypeList)
+            {
+                if (randomNumber < attackType.Weight)
+                {
+                    randomAttackType = attackType;
+                    break;
+                }
+                randomNumber -= attackType.Weight;
+            }
+            return randomAttackType;
+        }
+
+        private void SetDefenses()
         {
             ArmourClass = Level + 16;
             if (_random.Next(2) == 0)
@@ -131,11 +180,11 @@ namespace _13AMonsterGenerator
             }
         }
 
-        private void AddMonsterAbilities()
+        private void SetMonsterAbilities()
         {
             ListOfAbilities = new List<Ability>();
 
-            var maxNumberOfAbilities = _random.Next(1,4);
+            var maxNumberOfAbilities = _random.Next(1, 4);
             if (maxNumberOfAbilities == 0)
             {
                 maxNumberOfAbilities = 1;
@@ -161,7 +210,7 @@ namespace _13AMonsterGenerator
 
                 if (Level <= 3)
                 {
-                    for (int i = 0; i < Level; i++)
+                    for (var i = 0; i < Level; i++)
                     {
                         healthPoints += 2;
                     }

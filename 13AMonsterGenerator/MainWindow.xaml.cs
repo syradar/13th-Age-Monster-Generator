@@ -95,14 +95,23 @@ namespace _13AMonsterGenerator
 
             foreach (var attack in monster.ListOfAttacks)
             {
+                MonsterTextBox.AppendText(attack.TypeOfAttack.Shortname);
+                if (attack.TypeOfAttack.Shortname.Equals("R") || attack.TypeOfAttack.Shortname.Equals("C"))
+                {
+                    MonsterTextBox.AppendText(": ");
+                }
                 MonsterTextBox.AppendText(attack.Name);
                 MonsterTextBox.AppendText(" +");
                 MonsterTextBox.AppendText(attack.AttackModifier.ToString());
                 MonsterTextBox.AppendText(" vs. ");
                 MonsterTextBox.AppendText(EnumUtilites.StringValueOf(attack.AttackAgainstDefense));
                 MonsterTextBox.AppendText(" -- ");
-                MonsterTextBox.AppendText(attack.Damage.ToString());
+                MonsterTextBox.AppendText(attack.Damage.DamageNumber.ToString());
                 MonsterTextBox.AppendText(" ");
+                MonsterTextBox.AppendText(EnumUtilites.StringValueOf(attack.Damage.DamageType));
+                MonsterTextBox.AppendText(" ");
+                MonsterTextBox.AppendText(EnumUtilites.StringValueOf(attack.Damage.DamageElement));
+                MonsterTextBox.AppendText(" damage ");
                 MonsterTextBox.AppendText(attack.OnHitEffect.Description);
                 MonsterTextBox.AppendText(Environment.NewLine);
                 OutputAbilities(attack.ListOfAbilities, true);

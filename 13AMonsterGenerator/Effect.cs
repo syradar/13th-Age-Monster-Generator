@@ -2,7 +2,7 @@ namespace _13AMonsterGenerator
 {
     internal class Effect
     {
-        public string Description { get; internal set; }
+        public string Description { get; private set; }
 
         public Effect(string description)
         {
