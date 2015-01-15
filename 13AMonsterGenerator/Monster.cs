@@ -96,7 +96,7 @@ namespace _13AMonsterGenerator
             HealthPoints = GetHealthPoinst();
             SetDefenses();
 
-            var randomNumberOfattacks = _random.Next(1,5);
+            var randomNumberOfattacks = _random.Next(1, 5);
 
             ListOfAttacks = GetRandomNumberOfAttacks(randomNumberOfattacks);
             Console.WriteLine(randomNumberOfattacks.ToString());
@@ -122,21 +122,23 @@ namespace _13AMonsterGenerator
 
             var listOfAttackNames = new List<String>
             {
-                "Burning touch", "Gnarly club", "Shortbow", "Mind blase"
+                "Burning touch",
+                "Gnarly club",
+                "Shortbow",
+                "Mind blase"
             };
 
+            var damageElementArray = Enum.GetValues(typeof (Element.ElementType));
+            var damageTypeArray = Enum.GetValues(typeof (Damage.Type));
             for (var i = 0; i < maxNumberOfAttacks; i++)
             {
                 var randomAttackType = GenerateAttackType(AttackTypeList);
-
                 var randomDefenseType = GenerateDefenseType(DefenseTypeList);
-
-                var damageElementArray = Enum.GetValues(typeof(Element.ElementType));
                 var randomElement =
-                    (Element.ElementType)damageElementArray.GetValue(_random.Next(damageElementArray.Length));
+                    (Element.ElementType) damageElementArray.GetValue(_random.Next(damageElementArray.Length));
+                var randomeDamageType = (Damage.Type) damageTypeArray.GetValue(_random.Next(damageTypeArray.Length));
 
-                var damageTypeArray = Enum.GetValues(typeof(Damage.Type));
-                var randomeDamageType = (Damage.Type)damageTypeArray.GetValue(_random.Next(damageTypeArray.Length));
+                // TODO: CLEAN THIS UP!
 
                 var lal = new List<Ability>();
                 var tempList = listOfAttackAbilities.ToList();
@@ -149,14 +151,21 @@ namespace _13AMonsterGenerator
                     tempList.RemoveAt(lol);
                 }
 
+
                 listOfAttacks.Add(
                     new Attack(Level + 5, randomAttackType, randomDefenseType,
-                        new Damage(Level + 1 * 8, randomElement, randomeDamageType), lal.ToList(), CryptoRandom.Shuffle(listOfAttackNames).First(),
+                        new Damage(Level + 1 * 8, randomElement, randomeDamageType), lal.ToList(),
+                        CryptoRandom.Shuffle(listOfAttackNames).First(),
                         new Effect(""))
-                );
+                    );
             }
 
-            foreach (var effect in from attack in listOfAttacks from ability in attack.ListOfAbilities from effect in ability.Effects select effect)
+            foreach (
+                var effect in
+                    from attack in listOfAttacks
+                    from ability in attack.ListOfAbilities
+                    from effect in ability.Effects
+                    select effect)
             {
                 Console.WriteLine(effect.Description);
             }
@@ -177,6 +186,7 @@ namespace _13AMonsterGenerator
                 return defenseTypeList;
             }
         }
+
         private static List<AttackType> AttackTypeList
         {
             get
