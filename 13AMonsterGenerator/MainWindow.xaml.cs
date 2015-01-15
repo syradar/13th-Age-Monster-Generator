@@ -104,7 +104,7 @@ namespace _13AMonsterGenerator
                 MonsterTextBox.AppendText(" +");
                 MonsterTextBox.AppendText(attack.AttackModifier.ToString());
                 MonsterTextBox.AppendText(" vs. ");
-                MonsterTextBox.AppendText(EnumUtilites.StringValueOf(attack.AttackAgainstDefense));
+                MonsterTextBox.AppendText(attack.AttackAgainstDefense.Shortname);
                 MonsterTextBox.AppendText(" -- ");
                 MonsterTextBox.AppendText(attack.Damage.DamageNumber.ToString());
                 MonsterTextBox.AppendText(" ");

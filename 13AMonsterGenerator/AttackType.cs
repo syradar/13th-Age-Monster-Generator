@@ -9,6 +9,10 @@
             Close
         }
 
+        public AttackType()
+        {
+        }
+
         public AttackType(Type type)
         {
             switch (type)

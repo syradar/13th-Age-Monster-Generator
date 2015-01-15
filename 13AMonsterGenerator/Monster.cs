@@ -106,13 +106,10 @@ namespace _13AMonsterGenerator
             {
                 new Ability(Ability.Trigger.Natural16Plus, listOfAttackEffects)
             };
-            // TODO: Add random attackType, defense, effects, attack-abilitiess
-
+            
             var randomAttackType = GenerateAttackType(AttackTypeList);
 
-
-            var defenseArray = Enum.GetValues(typeof (Attack.Defense));
-            var randomDefense = (Attack.Defense) defenseArray.GetValue(_random.Next(defenseArray.Length));
+            var randomDefenseType = GenerateDefenseType(randomAttackType, DefenseTypeList);
 
             var damageElementArray = Enum.GetValues(typeof (Element.ElementType));
             var randomElement =
@@ -123,7 +120,7 @@ namespace _13AMonsterGenerator
 
             var attack = new List<Attack>
             {
-                new Attack(Level + 5, randomAttackType, randomDefense,
+                new Attack(Level + 5, randomAttackType, randomDefenseType,
                     new Damage(Level + 1 * 8, randomElement, randomeDamageType), listOfAttackAbilities, "Burning Touch",
                     new Effect(""))
             };
@@ -133,6 +130,19 @@ namespace _13AMonsterGenerator
             SetMonsterAbilities();
         }
 
+        private static List<DefenseType> DefenseTypeList
+        {
+            get
+            {
+                var defenseTypeList = new List<DefenseType>
+                {
+                    new DefenseType(DefenseType.Type.Ac),
+                    new DefenseType(DefenseType.Type.Pd),
+                    new DefenseType(DefenseType.Type.Md)
+                };
+                return defenseTypeList;
+            }
+        }
         private static List<AttackType> AttackTypeList
         {
             get
@@ -147,11 +157,35 @@ namespace _13AMonsterGenerator
             }
         }
 
+        private DefenseType GenerateDefenseType(AttackType randomAttackType, List<DefenseType> defenseTypeList)
+        {
+            if (!randomAttackType.Name.Equals("Melee"))
+            {
+                var defenseTypeToRemove = defenseTypeList.Single(r => r.Shortname.Equals("AC"));
+                defenseTypeList.Remove(defenseTypeToRemove);
+            }
+
+            var weight = defenseTypeList.Sum(defenseType => defenseType.Weight);
+            var randomNumber = _random.Next(weight);
+            var randomDefenseType = new DefenseType();
+
+            foreach (var defenseType in defenseTypeList)
+            {
+                if (randomNumber < defenseType.Weight)
+                {
+                    randomDefenseType = defenseType;
+                    break;
+                }
+                randomNumber -= defenseType.Weight;
+            }
+            return randomDefenseType;
+        }
+
         private AttackType GenerateAttackType(List<AttackType> attackTypeList)
         {
             var weight = attackTypeList.Sum(attackType => attackType.Weight);
             var randomNumber = _random.Next(weight);
-            var randomAttackType = new AttackType(AttackType.Type.Melee);
+            var randomAttackType = new AttackType();
 
             foreach (var attackType in attackTypeList)
             {

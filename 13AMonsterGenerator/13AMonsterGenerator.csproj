@@ -104,6 +104,7 @@
     <Compile Include="Attack.cs" />
     <Compile Include="AttackType.cs" />
     <Compile Include="Damage.cs" />
+    <Compile Include="DefenseType.cs" />
     <Compile Include="DifficultyValue.cs" />
     <Compile Include="Effect.cs" />
     <Compile Include="Element.cs" />
