@@ -95,15 +95,15 @@ namespace _13AMonsterGenerator
             MonsterTextBox.AppendText(monster.GetMonster());
             MonsterTextBox.AppendText(Environment.NewLine);
 
+
             monster.ListOfAttacks =
-                monster.ListOfAttacks.OrderByDescending(d => d.AttackAgainstDefense.Shortname == "AC")
+                monster.ListOfAttacks.OrderByDescending(d => d.TypeOfAttack.Name == "Melee")
+                    .ThenBy(d => d.TypeOfAttack.Name == "Close")
+                    .ThenBy(d => d.TypeOfAttack.Name == "Range")
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "MD")
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "PD")
-                    .ThenBy(d => d.TypeOfAttack.Name == "Range")
-                    .ThenBy(d => d.TypeOfAttack.Name == "Close")
-                    .ThenBy(d => d.TypeOfAttack.Name == "Melee")
+                    .ThenBy(d => d.AttackAgainstDefense.Shortname == "AC")
                     .ToList();
-
             foreach (var attack in monster.ListOfAttacks)
             {
                 MonsterTextBox.AppendText(attack.TypeOfAttack.Shortname);
