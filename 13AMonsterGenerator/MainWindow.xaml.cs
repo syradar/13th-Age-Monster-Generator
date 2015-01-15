@@ -98,8 +98,8 @@ namespace _13AMonsterGenerator
 
             monster.ListOfAttacks =
                 monster.ListOfAttacks.OrderByDescending(d => d.TypeOfAttack.Name == "Melee")
-                    .ThenBy(d => d.TypeOfAttack.Name == "Close")
                     .ThenBy(d => d.TypeOfAttack.Name == "Range")
+                    .ThenBy(d => d.TypeOfAttack.Name == "Close")
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "MD")
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "PD")
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "AC")
