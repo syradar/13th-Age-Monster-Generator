@@ -109,7 +109,7 @@ namespace _13AMonsterGenerator
             
             var randomAttackType = GenerateAttackType(AttackTypeList);
 
-            var randomDefenseType = GenerateDefenseType(randomAttackType, DefenseTypeList);
+            var randomDefenseType = GenerateDefenseType(DefenseTypeList);
 
             var damageElementArray = Enum.GetValues(typeof (Element.ElementType));
             var randomElement =
@@ -157,14 +157,8 @@ namespace _13AMonsterGenerator
             }
         }
 
-        private DefenseType GenerateDefenseType(AttackType randomAttackType, List<DefenseType> defenseTypeList)
+        private DefenseType GenerateDefenseType(List<DefenseType> defenseTypeList)
         {
-            if (!randomAttackType.Name.Equals("Melee"))
-            {
-                var defenseTypeToRemove = defenseTypeList.Single(r => r.Shortname.Equals("AC"));
-                defenseTypeList.Remove(defenseTypeToRemove);
-            }
-
             var weight = defenseTypeList.Sum(defenseType => defenseType.Weight);
             var randomNumber = _random.Next(weight);
             var randomDefenseType = new DefenseType();
