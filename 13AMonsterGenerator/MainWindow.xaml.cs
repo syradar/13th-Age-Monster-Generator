@@ -99,6 +99,9 @@ namespace _13AMonsterGenerator
                 monster.ListOfAttacks.OrderByDescending(d => d.AttackAgainstDefense.Shortname == "AC")
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "MD")
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "PD")
+                    .ThenBy(d => d.TypeOfAttack.Name == "Range")
+                    .ThenBy(d => d.TypeOfAttack.Name == "Close")
+                    .ThenBy(d => d.TypeOfAttack.Name == "Melee")
                     .ToList();
 
             foreach (var attack in monster.ListOfAttacks)
