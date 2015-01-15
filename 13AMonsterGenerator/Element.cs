@@ -7,10 +7,10 @@ namespace _13AMonsterGenerator
         public enum ElementType
         {
             [Description("")]Regular,
-            [Description("Fire")]Fire,
-            [Description("Thunder")]Thunder,
-            [Description("Ice")]Ice,
-            [Description("Negative energy")]NegativeEnergy
+            [Description("fire")]Fire,
+            [Description("thunder")]Thunder,
+            [Description("cold")]Ice,
+            [Description("negative energy")]NegativeEnergy
         }
     }
 }

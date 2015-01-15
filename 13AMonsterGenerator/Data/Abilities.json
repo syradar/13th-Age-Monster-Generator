@@ -44,5 +44,10 @@
     "effects": [
       "When MONSTER_NAME drops to 0 hp, it does not immediately die. Ignore any damage in excess of 0 hp, roll 2d6, and give the MONSTER_NAME that many temporary hit points. No other healing can affect the MONSTER_NAME or give it more temporary hit points: when the temporary hp are gone, the MONSTER_NAME dies."
     ]
+  },{
+    "name": "Goes where he pleases",
+    "effects": [
+      "MONSTER_NAME can pop free as a quick action."
+    ]
   }
 ]

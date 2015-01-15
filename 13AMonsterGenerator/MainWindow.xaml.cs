@@ -71,11 +71,11 @@ namespace _13AMonsterGenerator
         private void OutputMonster(PlayerTier pt, Monster monster)
         {
             MonsterTextBox.Text = String.Empty;
-            MonsterTextBox.AppendText("Player Level: " + pt.Level.ToString());
+            MonsterTextBox.AppendText("Player Level: " + pt.Level);
             MonsterTextBox.AppendText(Environment.NewLine + "Monster Level Adjustment Range: ");
             foreach (var monsterLevelAdjustment in pt.MonsterLevelAdjustmentRange)
             {
-                MonsterTextBox.AppendText(monsterLevelAdjustment.ToString() + ", ");
+                MonsterTextBox.AppendText(monsterLevelAdjustment + ", ");
             }
 
             MonsterTextBox.AppendText(Environment.NewLine + "Monster Tier: ");
@@ -104,27 +104,32 @@ namespace _13AMonsterGenerator
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "PD")
                     .ThenBy(d => d.AttackAgainstDefense.Shortname == "AC")
                     .ToList();
+
             foreach (var attack in monster.ListOfAttacks)
             {
+                var damageType = EnumUtilites.StringValueOf(attack.Damage.DamageType);
+                var damageElement = EnumUtilites.StringValueOf(attack.Damage.DamageElement);
+
                 MonsterTextBox.AppendText(attack.TypeOfAttack.Shortname);
                 if (attack.TypeOfAttack.Shortname.Equals("R") || attack.TypeOfAttack.Shortname.Equals("C"))
                 {
                     MonsterTextBox.AppendText(": ");
                 }
+
                 MonsterTextBox.AppendText(attack.Name);
                 MonsterTextBox.AppendText(" +");
                 MonsterTextBox.AppendText(attack.AttackModifier.ToString());
                 MonsterTextBox.AppendText(" vs. ");
                 MonsterTextBox.AppendText(attack.AttackAgainstDefense.Shortname);
-                MonsterTextBox.AppendText(" -- ");
+                MonsterTextBox.AppendText(" — ");
+
                 MonsterTextBox.AppendText(attack.Damage.DamageNumber.ToString());
-                MonsterTextBox.AppendText(" ");
-                MonsterTextBox.AppendText(EnumUtilites.StringValueOf(attack.Damage.DamageType));
-                MonsterTextBox.AppendText(" ");
-                MonsterTextBox.AppendText(EnumUtilites.StringValueOf(attack.Damage.DamageElement));
-                MonsterTextBox.AppendText(" damage ");
+                MonsterTextBox.AppendText(damageType.Equals("") ? " " : " " + damageType + " ");
+                MonsterTextBox.AppendText(damageElement.Equals("") ? "" : damageElement + " ");
+                MonsterTextBox.AppendText("damage");
                 MonsterTextBox.AppendText(attack.OnHitEffect.Description);
                 MonsterTextBox.AppendText(Environment.NewLine);
+
                 OutputAbilities(attack.ListOfAbilities, true);
             }
             MonsterTextBox.AppendText(Environment.NewLine);
@@ -174,6 +179,8 @@ namespace _13AMonsterGenerator
 
                 foreach (var effect in ability.Effects)
                 {
+                    newEffectDescription = effect.Description;
+
                     if (effect.Description.Contains("MONSTER_NAME"))
                     {
                         newEffectDescription = effect.Description.Replace("MONSTER_NAME", _monster.Name);

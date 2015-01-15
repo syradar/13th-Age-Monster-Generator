@@ -115,7 +115,14 @@ namespace _13AMonsterGenerator
 
             var listOfAttackAbilities = new List<Ability>
             {
-                new Ability(Ability.Trigger.Natural16Plus, listOfAttackEffects)
+                new Ability(Ability.Trigger.Natural16Plus, listOfAttackEffects.ToList()),
+                new Ability(Ability.Trigger.Miss, listOfAttackEffects.ToList()),
+                new Ability(Ability.Trigger.NaturalEvenHit, listOfAttackEffects.ToList())
+            };
+
+            var listOfAttackNames = new List<String>
+            {
+                "Burning touch", "Gnarly club", "Shortbow", "Mind blase"
             };
 
             for (var i = 0; i < maxNumberOfAttacks; i++)
@@ -131,11 +138,27 @@ namespace _13AMonsterGenerator
                 var damageTypeArray = Enum.GetValues(typeof(Damage.Type));
                 var randomeDamageType = (Damage.Type)damageTypeArray.GetValue(_random.Next(damageTypeArray.Length));
 
+                var lal = new List<Ability>();
+                var tempList = listOfAttackAbilities.ToList();
+                var randomLal = _random.Next(tempList.Count);
+
+                for (int j = 0; j < randomLal; j++)
+                {
+                    var lol = _random.Next(tempList.Count);
+                    lal.Add(tempList.ElementAt(lol));
+                    tempList.RemoveAt(lol);
+                }
+
                 listOfAttacks.Add(
                     new Attack(Level + 5, randomAttackType, randomDefenseType,
-                        new Damage(Level + 1 * 8, randomElement, randomeDamageType), listOfAttackAbilities, "Burning Touch",
+                        new Damage(Level + 1 * 8, randomElement, randomeDamageType), lal.ToList(), CryptoRandom.Shuffle(listOfAttackNames).First(),
                         new Effect(""))
                 );
+            }
+
+            foreach (var effect in from attack in listOfAttacks from ability in attack.ListOfAbilities from effect in ability.Effects select effect)
+            {
+                Console.WriteLine(effect.Description);
             }
 
             return listOfAttacks;
