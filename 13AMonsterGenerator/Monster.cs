@@ -96,6 +96,17 @@ namespace _13AMonsterGenerator
             HealthPoints = GetHealthPoinst();
             SetDefenses();
 
+            var randomNumberOfattacks = _random.Next(1,5);
+
+            ListOfAttacks = GetRandomNumberOfAttacks(randomNumberOfattacks);
+            Console.WriteLine(randomNumberOfattacks.ToString());
+
+            SetMonsterAbilities();
+        }
+
+        private List<Attack> GetRandomNumberOfAttacks(int maxNumberOfAttacks)
+        {
+            var listOfAttacks = new List<Attack>();
 
             var listOfAttackEffects = new List<Effect>
             {
@@ -106,28 +117,28 @@ namespace _13AMonsterGenerator
             {
                 new Ability(Ability.Trigger.Natural16Plus, listOfAttackEffects)
             };
-            
-            var randomAttackType = GenerateAttackType(AttackTypeList);
 
-            var randomDefenseType = GenerateDefenseType(DefenseTypeList);
-
-            var damageElementArray = Enum.GetValues(typeof (Element.ElementType));
-            var randomElement =
-                (Element.ElementType) damageElementArray.GetValue(_random.Next(damageElementArray.Length));
-
-            var damageTypeArray = Enum.GetValues(typeof (Damage.Type));
-            var randomeDamageType = (Damage.Type) damageTypeArray.GetValue(_random.Next(damageTypeArray.Length));
-
-            var attack = new List<Attack>
+            for (var i = 0; i < maxNumberOfAttacks; i++)
             {
-                new Attack(Level + 5, randomAttackType, randomDefenseType,
-                    new Damage(Level + 1 * 8, randomElement, randomeDamageType), listOfAttackAbilities, "Burning Touch",
-                    new Effect(""))
-            };
+                var randomAttackType = GenerateAttackType(AttackTypeList);
 
-            ListOfAttacks = attack;
+                var randomDefenseType = GenerateDefenseType(DefenseTypeList);
 
-            SetMonsterAbilities();
+                var damageElementArray = Enum.GetValues(typeof(Element.ElementType));
+                var randomElement =
+                    (Element.ElementType)damageElementArray.GetValue(_random.Next(damageElementArray.Length));
+
+                var damageTypeArray = Enum.GetValues(typeof(Damage.Type));
+                var randomeDamageType = (Damage.Type)damageTypeArray.GetValue(_random.Next(damageTypeArray.Length));
+
+                listOfAttacks.Add(
+                    new Attack(Level + 5, randomAttackType, randomDefenseType,
+                        new Damage(Level + 1 * 8, randomElement, randomeDamageType), listOfAttackAbilities, "Burning Touch",
+                        new Effect(""))
+                );
+            }
+
+            return listOfAttacks;
         }
 
         private static List<DefenseType> DefenseTypeList

@@ -27,7 +27,9 @@ namespace _13AMonsterGenerator
         {
             try
             {
-                var abilityDeserializeObject = JsonConvert.DeserializeObject<List<AbilityDTO>>(File.ReadAllText(Properties.Resources.AbilitiesJsonPath));
+                var abilityDeserializeObject =
+                    JsonConvert.DeserializeObject<List<AbilityDTO>>(
+                        File.ReadAllText(Properties.Resources.AbilitiesJsonPath));
 
                 _abilityList = new List<Ability>();
                 foreach (var abilityDto in abilityDeserializeObject)
@@ -37,7 +39,7 @@ namespace _13AMonsterGenerator
             }
             catch (IOException e)
             {
-                MessageBox.Show("Could not find Abilities.json in Data folder :("+Environment.NewLine+e);
+                MessageBox.Show("Could not find Abilities.json in Data folder :(" + Environment.NewLine + e);
                 Application.Current.Shutdown();
             }
         }
@@ -55,7 +57,7 @@ namespace _13AMonsterGenerator
         private void GenerateMonsterClicked(object sender, RoutedEventArgs e)
         {
             _playerTier = new PlayerTier((int) PlayerLevelComboBox.SelectedValue);
-            _monster = new Monster(new PlayerTier((int)PlayerLevelComboBox.SelectedValue), _abilityList.ToList());
+            _monster = new Monster(new PlayerTier((int) PlayerLevelComboBox.SelectedValue), _abilityList.ToList());
 
             if (!txtMonsterName.Text.Equals(""))
             {
@@ -92,6 +94,12 @@ namespace _13AMonsterGenerator
             MonsterTextBox.AppendText(Environment.NewLine);
             MonsterTextBox.AppendText(monster.GetMonster());
             MonsterTextBox.AppendText(Environment.NewLine);
+
+            monster.ListOfAttacks =
+                monster.ListOfAttacks.OrderByDescending(d => d.AttackAgainstDefense.Shortname == "AC")
+                    .ThenBy(d => d.AttackAgainstDefense.Shortname == "MD")
+                    .ThenBy(d => d.AttackAgainstDefense.Shortname == "PD")
+                    .ToList();
 
             foreach (var attack in monster.ListOfAttacks)
             {
