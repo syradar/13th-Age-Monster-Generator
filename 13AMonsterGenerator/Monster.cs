@@ -144,7 +144,7 @@ namespace _13AMonsterGenerator
                 var tempList = listOfAttackAbilities.ToList();
                 var randomLal = _random.Next(tempList.Count);
 
-                for (int j = 0; j < randomLal; j++)
+                for (var j = 0; j < randomLal; j++)
                 {
                     var lol = _random.Next(tempList.Count);
                     lal.Add(tempList.ElementAt(lol));
@@ -204,17 +204,17 @@ namespace _13AMonsterGenerator
         private DefenseType GenerateDefenseType(List<DefenseType> defenseTypeList)
         {
             var weight = defenseTypeList.Sum(defenseType => defenseType.Weight);
-            var randomNumber = _random.Next(weight);
+            var randomWeight = _random.Next(weight);
             var randomDefenseType = new DefenseType();
 
             foreach (var defenseType in defenseTypeList)
             {
-                if (randomNumber < defenseType.Weight)
+                if (randomWeight < defenseType.Weight)
                 {
                     randomDefenseType = defenseType;
                     break;
                 }
-                randomNumber -= defenseType.Weight;
+                randomWeight -= defenseType.Weight;
             }
             return randomDefenseType;
         }
@@ -222,17 +222,17 @@ namespace _13AMonsterGenerator
         private AttackType GenerateAttackType(List<AttackType> attackTypeList)
         {
             var weight = attackTypeList.Sum(attackType => attackType.Weight);
-            var randomNumber = _random.Next(weight);
+            var randomWeight = _random.Next(weight);
             var randomAttackType = new AttackType();
 
             foreach (var attackType in attackTypeList)
             {
-                if (randomNumber < attackType.Weight)
+                if (randomWeight < attackType.Weight)
                 {
                     randomAttackType = attackType;
                     break;
                 }
-                randomNumber -= attackType.Weight;
+                randomWeight -= attackType.Weight;
             }
             return randomAttackType;
         }
